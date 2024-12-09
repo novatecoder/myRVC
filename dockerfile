@@ -26,3 +26,5 @@ RUN apt-get update && \
 
 # Set Python 3.12 as the default
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
+
+# docker build -t myRVC:0.0.0.1.dev .
