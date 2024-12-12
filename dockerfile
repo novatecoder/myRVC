@@ -14,17 +14,21 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Add the deadsnakes PPA to get Python 3.12
+# Add the deadsnakes PPA to get Python 3.9
 RUN add-apt-repository ppa:deadsnakes/ppa
 
-# Install Python 3.12 and pip
+# Install Python 3.9 and pip
 RUN apt-get update && \
-    apt-get install -y build-essential python3-pip python3-dev python3.12-dev python3.12 curl && \
-    apt-get clean && \
-    update-alternatives --install -y /usr/bin/python3 python3 /usr/bin/python3.12 1 && \
-    curl https://bootstrap.pypa.io/get-pip.py | python3.12
+    apt-get install -y build-essential python3-pip python3-distutils python3-dev python3.9-dev python3.9 curl && \
+    apt-get clean
 
-# Set Python 3.12 as the default
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
+# Set Python 3.9 as the default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
 
-# docker build -t myRVC:0.0.0.1.dev .
+COPY ./requirements.txt .
+
+RUN python -m pip install --break-system-packages --upgrade --ignore-installed pip setuptools wheel
+
+RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
+
+# docker build -t myrcvdocker:latest .
