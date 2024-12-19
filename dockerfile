@@ -14,16 +14,16 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Add the deadsnakes PPA to get Python 3.9
+# Add the deadsnakes PPA to get Python 3.10
 RUN add-apt-repository ppa:deadsnakes/ppa
 
-# Install Python 3.9 and pip
+# Install Python 3.10 and pip
 RUN apt-get update && \
-    apt-get install -y build-essential python3-pip python3-distutils python3-dev python3.9-dev python3.9 curl && \
+    apt-get install -y build-essential python3-pip python3.10-distutils python3-dev python3.10-dev python3.10 curl ffmpeg libsndfile1 && \
     apt-get clean
 
-# Set Python 3.9 as the default
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
+# Set Python 3.10 as the default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
 
 COPY ./requirements.txt .
 

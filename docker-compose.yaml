@@ -2,12 +2,17 @@ version: '3.8'
 
 services:
   myrcvdocker:
-    image: myrcvdocker:0.0.0.1.dev
-    build:
-      context: .
-    ports:
-      - "8080:8080"  # 필요한 포트를 여기에 추가하세요
-    environment:
-      - ENV_VAR_NAME=value  # 필요한 환경 변수를 여기에 추가하세요
+    image: myrcvdocker:latest
+    # build:
+    #   context: .
+    network_mode: "host"  # 네트워크 설정을 호스트와 동일하게
     volumes:
-      - ./data:/app/data  # 필요한 볼륨을 여기에 추가하세요
+      - /home/kwh/workspace:/root/workspace  # 지정한 경로로 볼륨 마운트
+    command: tail -f /dev/null  # 컨테이너 시작 시 bash 실행
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
